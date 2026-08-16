@@ -1,0 +1,9 @@
+# 绝不提交：含学生姓名与学号的原始材料
+corpus/
+work/
+uploads/
+screenshots/
+*.zip
+*.pptx
+*.docx
+*.pdf
