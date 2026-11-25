@@ -55,8 +55,8 @@ window.ZH = {
     ipSuffix: '个进行中',
     ipCourseFmt: '（其中 {n} 个进行中）',
     ipNote: '进行中。主题取自中期报告，技术栈与平台待期末报告后补充。',
-    newSitesTitle: '本学期新上线：学生作品站',
-    newSitesSub: '2026 秋季学期学生在 lab、作业与课堂分享中做出的作品，两门课各一个站，学期内滚动更新。',
+    newSitesTitle: '2026 秋季学期学生作品站',
+    newSitesSub: '2026 秋季学期学生在 lab、作业与课堂分享中做出的作品，两门课各一个站。',
     siteName: '学生作品站',
     siteVisit: '打开'
   },

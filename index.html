@@ -484,6 +484,9 @@ const YEARS = [
 // 2026-27 records carry status 'in_progress': topic only, no stack / platform / artifact yet.
 // They count in project totals and the business-function chart, and are left out of every stack, platform and artifact statistic.
 const isDone = r => r.status !== 'in_progress';
+// IBA6316 was cross-listed as MDS5370 from Fall 2025; the records keep the code each term used,
+// but every grouping and filter treats them as one course.
+const courseOf = r => (r.course === 'IBA6316' || r.course === 'IBA6316/MDS5370') ? 'IBA6316 / MDS5370' : r.course;
 const SITES = [
   { code: 'MIS3011', level: 'UG', levelColor: 'oklch(0.62 0.12 25)', en: 'Advanced AI for Business', zh: '面向商务实践者的高级人工智能', url: 'https://yutong010.github.io/mis3011-artifact-gallery/' },
   { code: 'IBA6316 · MDS5370', level: 'PG', levelColor: 'oklch(0.5 0.13 250)', en: 'Generative AI for Business', zh: '生成式人工智能商业应用', url: 'https://yutong010.github.io/iba6316-mds5370-artifact-gallery/' }
@@ -525,8 +528,8 @@ const EN = {
   contact: 'Contact:', ug: 'Undergraduate', pg: 'Postgraduate', evidenceAlt: 'Interface evidence from the team report',
   statInProgress: 'In progress', inProgress: 'In progress', ipSuffix: 'in progress', ipCourseFmt: ' ({n} in progress)',
   ipNote: 'In progress. The topic comes from the team’s interim report; stack and platform will be added after the final report.',
-  newSitesTitle: 'New this term: student artifact galleries',
-  newSitesSub: 'Student work from Fall 2026 labs, assignments and in-class sharing — one site per course, updated through the term.',
+  newSitesTitle: 'Fall 2026 student artifact galleries',
+  newSitesSub: 'Student work from Fall 2026 labs, assignments and in-class sharing — one site per course.',
   siteName: 'Student Artifact Gallery', siteVisit: 'Open'
 };
 const initialLang = (() => {
@@ -638,7 +641,7 @@ class Component extends DCLogic {
       { code: 'IBA6316 / MDS5370', name: 'Generative AI for Business Applications: A No-Code/Low-Code Approach', terms: 'Spring 2025 \u00b7 Fall 2025 \u00b7 Fall 2026', coTeach: 'Spring 2025', codes: ['IBA6316', 'IBA6316/MDS5370'] }
     ];
     const courseRows = COURSES.map(c => {
-      const g = all.filter(r => c.codes.indexOf(r.course) >= 0);
+      const g = all.filter(r => courseOf(r) === c.code);
       const nIp = g.filter(r => !isDone(r)).length;
       const tally = {};
       g.filter(isDone).forEach(r => [...new Set(r.stack_norm || r.ai_stack)].forEach(x => { tally[x] = (tally[x] || 0) + 1; }));
@@ -660,10 +663,10 @@ class Component extends DCLogic {
 
     const PC = { 'Dify': 'oklch(0.5 0.13 250)', 'Coze': 'oklch(0.62 0.11 145)', 'Colab/Python': 'oklch(0.6 0.12 60)', 'LangChain': 'oklch(0.66 0.1 200)', 'Streamlit': 'oklch(0.7 0.11 165)', 'static webpage': 'oklch(0.62 0.1 300)', 'Flask': 'oklch(0.68 0.11 330)', 'n8n': 'oklch(0.6 0.1 20)' };
     const pcolor = p => PC[p] || 'oklch(0.75 0.02 265)';
-    const courses = [...new Set(done.map(r => r.course))];
+    const courses = [...new Set(done.map(courseOf))];
     const platSeen = {};
     const platRows = courses.map(c => {
-      const g = done.filter(r => r.course === c), tally = {};
+      const g = done.filter(r => courseOf(r) === c), tally = {};
       g.forEach(r => [...new Set((r.platform_norm || r.platform).map(p => PC[p] ? p : 'other'))].forEach(p => { tally[p] = (tally[p] || 0) + 1; }));
       const list = Object.keys(tally).map(k => ({ name: k, n: tally[k] })).sort((a, b) => b.n - a.n);
       const tot = list.reduce((a, b) => a + b.n, 0) || 1;
@@ -719,7 +722,7 @@ class Component extends DCLogic {
     const q = s.q.trim().toLowerCase();
     const gridItems = all.filter(r => {
       if (s.fYear && r.academic_year !== s.fYear) return false;
-      if (s.fCourse && r.course !== s.fCourse) return false;
+      if (s.fCourse && courseOf(r) !== s.fCourse) return false;
       if (s.fFunc && r.business_function !== s.fFunc) return false;
       if (s.fStack && (r.stack_norm || r.ai_stack).indexOf(s.fStack) < 0) return false;
       if (s.fPlat && (r.platform_norm || r.platform).indexOf(s.fPlat) < 0) return false;
@@ -778,7 +781,7 @@ class Component extends DCLogic {
       setPlat: e => this.setState({ fPlat: e.target.value }),
       resetFilters: () => this.setState({ q: '', fYear: '', fCourse: '', fFunc: '', fStack: '', fPlat: '' }),
       yearOpts: this.opts(ui.allYears, uniq(r => [r.academic_year])),
-      courseOpts: this.opts(ui.allCourses, uniq(r => [r.course])),
+      courseOpts: this.opts(ui.allCourses, uniq(r => [courseOf(r)])),
       funcOpts: [{ v: '', label: ui.allFuncs }].concat(uniq(r => [r.business_function]).map(v => ({ v: v, label: this.tf(v) }))),
       stackOpts: this.opts(ui.allStacks, uniq(r => r.stack_norm || r.ai_stack)),
       platOpts: this.opts(ui.allPlats, uniq(r => r.platform_norm || r.platform)),
