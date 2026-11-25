@@ -94,11 +94,15 @@
           <span style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;color:oklch(0.74 0.02 265);font-weight:600">{{ t.statProjects }}</span>
         </div>
         <div style="display:flex;align-items:baseline;gap:8px">
+          <span style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;line-height:1;color:oklch(0.985 0.006 85)">{{ nInProgress }}</span>
+          <span style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;color:oklch(0.74 0.02 265);font-weight:600">{{ t.statInProgress }}</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:8px">
           <span style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;line-height:1;color:oklch(0.985 0.006 85)">4</span>
           <span style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;color:oklch(0.74 0.02 265);font-weight:600">{{ t.statCourses }}</span>
         </div>
         <div style="display:flex;align-items:baseline;gap:8px">
-          <span style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;line-height:1;color:oklch(0.985 0.006 85)">3</span>
+          <span style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;line-height:1;color:oklch(0.985 0.006 85)">{{ nYears }}</span>
           <span style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;color:oklch(0.74 0.02 265);font-weight:600">{{ t.statYears }}</span>
         </div>
         <div style="display:flex;align-items:baseline;gap:8px">
@@ -148,6 +152,25 @@
         </div>
       </div>
 
+      <div data-block="1" style="background:#fff;border:1px solid oklch(0.9 0.012 85);border-radius:14px;padding:22px 26px;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center">
+        <div style="flex:1 1 340px;display:flex;flex-direction:column;gap:6px">
+          <h2 style="margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;line-height:1.15">{{ t.newSitesTitle }}</h2>
+          <p style="margin:0;font-size:17px;line-height:1.45;color:oklch(0.45 0.02 265)">{{ t.newSitesSub }}</p>
+        </div>
+        <div style="flex:2 1 520px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px">
+          <sc-for list="{{ newSites }}" as="ns" hint-placeholder-count="2">
+            <a href="{{ ns.url }}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:10px;border:1px solid oklch(0.9 0.012 85);background:oklch(0.982 0.006 85);color:inherit;text-decoration:none" style-hover="border-color:oklch(0.52 0.13 250);background:#fff">
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.01em">{{ ns.code }}</span>
+                <span style="font-size:13px;font-weight:700;letter-spacing:0.05em;padding:3px 9px;border-radius:999px;color:#fff;background:{{ ns.levelColor }}">{{ ns.level }}</span>
+                <span style="margin-left:auto;font-size:15px;font-weight:700;color:oklch(0.52 0.13 250)">{{ t.siteVisit }} &#8599;</span>
+              </div>
+              <div style="font-size:16px;line-height:1.35;color:oklch(0.35 0.02 265)">{{ ns.name }}</div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:20px">
 
         <div style="background:#fff;border:1px solid oklch(0.9 0.012 85);border-radius:14px;padding:24px 26px 22px;display:flex;flex-direction:column;gap:18px">
@@ -162,7 +185,7 @@
                   <span style="font-size:19px;font-weight:700;letter-spacing:-0.01em">{{ c.code }}</span>
                   <span style="font-size:13px;font-weight:700;letter-spacing:0.05em;padding:3px 9px;border-radius:999px;color:#fff;background:{{ c.levelColor }}">{{ c.level }}</span>
                   <span style="font-size:15px;color:oklch(0.5 0.02 265)">{{ c.years }}</span>
-                  <span style="margin-left:auto;font-size:16px;font-weight:700;color:oklch(0.42 0.02 265)">{{ c.count }} {{ t.projectsSuffix }}</span>
+                  <span style="margin-left:auto;font-size:16px;font-weight:700;color:oklch(0.42 0.02 265)">{{ c.count }} {{ t.projectsSuffix }}<span style="font-weight:600;color:oklch(0.55 0.02 265)">{{ c.ipLabel }}</span></span>
                 </div>
                 <div style="font-size:16px;line-height:1.35;color:oklch(0.35 0.02 265)">{{ c.name }}</div>
                 <sc-if value="{{ c.coTeach }}" hint-placeholder-val="{{ false }}">
@@ -287,8 +310,8 @@
   <sc-if value="{{ isTime }}" hint-placeholder-val="{{ true }}">
     <section style="padding-top:36px">
       <p style="margin:0 0 24px;font-size:17px;color:oklch(0.45 0.02 265);max-width:900px">{{ t.timeIntro }}</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start">
-        <sc-for list="{{ years }}" as="y" hint-placeholder-count="3">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start">
+        <sc-for list="{{ years }}" as="y" hint-placeholder-count="4">
           <div data-block="1" style="display:flex;flex-direction:column;gap:16px">
             <div style="background:#fff;border:1px solid oklch(0.9 0.012 85);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
@@ -403,23 +426,14 @@
           </sc-for>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;color:oklch(0.52 0.02 265)">{{ t.artifact }}</div>
-            <div style="font-size:17px;font-weight:600">{{ sel.artifact }}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;color:oklch(0.52 0.02 265)">{{ t.industry }}</div>
-            <div style="font-size:17px;font-weight:600">{{ sel.industry }}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;color:oklch(0.52 0.02 265)">{{ t.businessFunction }}</div>
-            <div style="font-size:17px;font-weight:600">{{ sel.fn }}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;color:oklch(0.52 0.02 265)">{{ t.level }}</div>
-            <div style="font-size:17px;font-weight:600">{{ sel.levelLabel }}</div>
-          </div>
+          <sc-for list="{{ sel.facts }}" as="f" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;color:oklch(0.52 0.02 265)">{{ f.k }}</div>
+              <div style="font-size:17px;font-weight:600">{{ f.v }}</div>
+            </div>
+          </sc-for>
         </div>
+        <sc-if value="{{ sel.isDone }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="font-size:14px;letter-spacing:0.07em;text-transform:uppercase;font-weight:700;color:oklch(0.52 0.02 265)">{{ t.aiStack }}</div>
           <div style="display:flex;flex-wrap:wrap;gap:7px">
@@ -442,6 +456,7 @@
             </sc-if>
           </div>
         </div>
+        </sc-if>
 
       </aside>
     </div>
@@ -456,13 +471,22 @@
 <script type="text/x-dc" data-dc-script data-props="{}">
 const FUNCS = [
   'Talent & Recruiting','Content & Marketing','Finance & Investment','Retail & Customer Service',
-  'Education & Campus','Travel & Lifestyle','Healthcare','Knowledge & Risk Management','Operations & Supply Chain'
+  'Education & Campus','Travel & Leisure','Personal Life','Healthcare','Knowledge & Risk Management','Operations & Supply Chain'
 ];
-const HUES = [250, 25, 145, 300, 200, 60, 340, 175, 100];
+// 'Travel & Lifestyle' was split on 2026-11-24 into 'Travel & Leisure' and 'Personal Life'.
+const HUES = [250, 25, 145, 300, 200, 60, 280, 340, 175, 100];
 const YEARS = [
   { key: '2023-24', label: '2023-24', note: 'IBA4315. Predictive modelling on business datasets; the deliverable is usually an analysis.' },
   { key: '2024-25', label: '2024-25', note: 'MIS3011, MIS3012, IBA6316. GenAI and low-code orchestration replace notebooks; deliverables become running products.' },
-  { key: '2025-26', label: '2025-26', note: 'MIS3011, IBA6316/MDS5370. End-to-end agentic systems: tool calling, retrieval, and multi-agent decomposition.' }
+  { key: '2025-26', label: '2025-26', note: 'MIS3011, IBA6316/MDS5370. End-to-end agentic systems: tool calling, retrieval, and multi-agent decomposition.' },
+  { key: '2026-27', label: '2026-27', inProgress: true, note: 'MIS3011, IBA6316/MDS5370. In progress: topics only, taken from interim reports. Stacks and platforms are added after the final reports.' }
+];
+// 2026-27 records carry status 'in_progress': topic only, no stack / platform / artifact yet.
+// They count in project totals and the business-function chart, and are left out of every stack, platform and artifact statistic.
+const isDone = r => r.status !== 'in_progress';
+const SITES = [
+  { code: 'MIS3011', level: 'UG', levelColor: 'oklch(0.62 0.12 25)', en: 'Advanced AI for Business', zh: '面向商务实践者的高级人工智能', url: 'https://yutong010.github.io/mis3011-artifact-gallery/' },
+  { code: 'IBA6316 · MDS5370', level: 'PG', levelColor: 'oklch(0.5 0.13 250)', en: 'Generative AI for Business', zh: '生成式人工智能商业应用', url: 'https://yutong010.github.io/iba6316-mds5370-artifact-gallery/' }
 ];
 const YEAR_METRICS = [
   { label: 'GenAI / LLM', key: r => /LLM prompting|RAG|fine-tuning|text-to-|embeddings/.test(r.ai_stack.join('|')), hue: 250 },
@@ -479,11 +503,11 @@ const EN = {
   guo: 'Yutong Guo', leon: 'Leon Zhao',
   statProjects: 'Projects', statCourses: 'Courses', statYears: 'Academic years', statLevels: 'Undergraduate & postgraduate',
   tabHome: 'Overview', tabMap: 'Application areas', tabTime: 'Timeline', tabGrid: 'Browse all',
-  homeIntro: "Every record below comes from a team's own final report. Use the tabs above to move from these aggregates to the individual projects.",
+  homeIntro: "Completed projects come from each team's own final report; 2026-27 projects are still in progress and list topics only. Use the tabs above to move from these aggregates to the individual projects.",
   projectsSuffix: 'projects', cardCourses: 'Four AI courses',
   coTeachMid: 'co-taught with', coTeachEnd: '', pressPrefix: 'Featured in the SME official WeChat Account',
-  cardFuncTitle: 'Nine major business functions, no clear favourite',
-  cardFuncSub: 'Talent & Recruiting and Travel & Lifestyle appear only from 2024\u201325 \u2014 conversational consumer problems that were impractical before GenAI tooling.',
+  cardFuncTitle: 'Ten major business functions',
+  cardFuncSub: 'Talent & Recruiting and Travel & Leisure appear only from 2024\u201325 \u2014 conversational consumer problems that were impractical before GenAI tooling. Personal Life follows in 2025\u201326 and reaches nine projects in 2026\u201327.',
   cardFuncFoot: 'Single-label: each project counts once, under the function it primarily serves.',
   cardArtTitle: 'From ML-based analysis to running systems',
   cardArtSub: 'Analysis reports were the standard deliverable in 2023\u201324 and disappear afterwards. Every project since is something a user can open and operate.',
@@ -493,12 +517,17 @@ const EN = {
   cardPlatFoot: "Multi-label: a project contributes once to every platform it evidences, so bars show each course's platform mix, not project counts.",
   platOther: 'other / custom build',
   mapIntro: 'Grouped by the business function the product serves. Click any project for its stack.',
-  timeIntro: 'Three cohorts side by side. The bars show how many projects in that year evidenced each capability.',
+  timeIntro: 'Four cohorts side by side. The bars show how many projects in that year evidenced each capability; 2026-27 gets its bars once the final reports are in.',
   searchPlaceholder: 'Search projects, industries, stacks', reset: 'Reset', ofLabel: ' of ',
   allYears: 'All years', allCourses: 'All courses', allFuncs: 'All functions', allStacks: 'All AI stacks', allPlats: 'All platforms',
   artifact: 'Artifact', industry: 'Industry', businessFunction: 'Business function', level: 'Level',
   aiStack: 'AI stack', platform: 'Platform', notSpecified: 'Not specified in the report',
-  contact: 'Contact:', ug: 'Undergraduate', pg: 'Postgraduate', evidenceAlt: 'Interface evidence from the team report'
+  contact: 'Contact:', ug: 'Undergraduate', pg: 'Postgraduate', evidenceAlt: 'Interface evidence from the team report',
+  statInProgress: 'In progress', inProgress: 'In progress', ipSuffix: 'in progress', ipCourseFmt: ' ({n} in progress)',
+  ipNote: 'In progress. The topic comes from the team’s interim report; stack and platform will be added after the final report.',
+  newSitesTitle: 'New this term: student artifact galleries',
+  newSitesSub: 'Student work from Fall 2026 labs, assignments and in-class sharing — one site per course, updated through the term.',
+  siteName: 'Student Artifact Gallery', siteVisit: 'Open'
 };
 const initialLang = (() => {
   try { const v = localStorage.getItem('gallery-lang'); if (v === 'zh' || v === 'en') return v; } catch (e) {}
@@ -541,7 +570,7 @@ class Component extends DCLogic {
       color: this.color(r.business_function),
       badge: r.academic_year.replace('20', '') + ' \u00b7 ' + r.course,
       shortBadge: r.academic_year.replace('20', '') + ' ' + r.level,
-      tags: this.tagsFor(r),
+      tags: isDone(r) ? this.tagsFor(r) : [{ label: (this.zh() ? this.zh().ui : EN).inProgress }],
       thumbs: shots.map(src => ({ src: src })),
       thumbCols: shots.length > 1 ? '1fr 1fr' : '1fr',
       hasThumbs: shots.length > 0,
@@ -561,9 +590,11 @@ class Component extends DCLogic {
   home(all) {
     const zz = this.zh();
     const ui = zz ? zz.ui : EN;
-    const YC = ['oklch(0.74 0.07 60)', 'oklch(0.62 0.12 25)', 'oklch(0.5 0.13 250)'];
+    const YC = ['oklch(0.74 0.07 60)', 'oklch(0.62 0.12 25)', 'oklch(0.5 0.13 250)', 'oklch(0.6 0.11 165)'];
     const ys = YEARS.map(y => y.key);
     const cohorts = ys.map(k => all.filter(r => r.academic_year === k));
+    const cohortsDone = cohorts.map(g => g.filter(isDone));
+    const done = all.filter(isDone);
     const stackOf = r => (r.stack_norm || r.ai_stack).join('|');
     const caps = [
       { label: this.tm('GenAI / LLM'), test: r => /LLM prompting|RAG|fine-tuning|text-to-|embeddings/.test(stackOf(r)) },
@@ -574,15 +605,15 @@ class Component extends DCLogic {
     ];
     const capRows = caps.map(c => ({
       label: c.label,
-      bars: cohorts.map((g, i) => {
+      bars: cohortsDone.map((g, i) => {
         const n = g.filter(c.test).length, pct = g.length ? Math.round(n / g.length * 100) : 0;
         return { pct: pct + '%', w: Math.max(pct, 0.6) + '%', color: pct === 0 ? 'oklch(0.88 0.015 85)' : YC[i], dim: pct === 0 ? 'oklch(0.62 0.02 265)' : 'oklch(0.42 0.02 265)' };
       })
     }));
 
-    const stacked = (keyOf, names) => {
+    const stacked = (keyOf, names, groups) => {
       const rows = names.map(nm => {
-        const counts = cohorts.map(g => g.filter(r => keyOf(r) === nm).length);
+        const counts = groups.map(g => g.filter(r => keyOf(r) === nm).length);
         const tot = counts.reduce((a, b) => a + b, 0);
         return { name: nm, count: tot, counts: counts };
       }).filter(r => r.count > 0).sort((a, b) => b.count - a.count);
@@ -602,18 +633,20 @@ class Component extends DCLogic {
 
     const COURSES = [
       { code: 'IBA4315', name: 'Advanced Artificial Intelligence and Business Applications', terms: 'Spring 2024', codes: ['IBA4315'] },
-      { code: 'MIS3011', name: 'Advanced AI for Business: From Theories to Applications', terms: 'Spring 2025 \u00b7 Fall 2025 \u00b7 Fall 2026 (incoming)', press: { label: '经管好课', url: 'https://mp.weixin.qq.com/s/JhP8hwLpH4vIZ3p3cMJVeg' }, codes: ['MIS3011'] },
+      { code: 'MIS3011', name: 'Advanced AI for Business: From Theories to Applications', terms: 'Spring 2025 \u00b7 Fall 2025 \u00b7 Fall 2026', press: { label: '经管好课', url: 'https://mp.weixin.qq.com/s/JhP8hwLpH4vIZ3p3cMJVeg' }, codes: ['MIS3011'] },
       { code: 'MIS3012', name: 'LLMs in Business: From Prompt Engineering to AI Agents', terms: 'Spring 2025', coTeach: 'Spring 2025', press: { label: '\u7ecf\u7ba1 AI \u63a2\u754c', url: 'https://mp.weixin.qq.com/s/bZL_L3KLMBO5jSUPjGsvoQ' }, codes: ['MIS3012'] },
-      { code: 'IBA6316 / MDS5370', name: 'Generative AI for Business Applications: A No-Code/Low-Code Approach', terms: 'Spring 2025 \u00b7 Fall 2025 \u00b7 Fall 2026 (incoming)', coTeach: 'Spring 2025', codes: ['IBA6316', 'IBA6316/MDS5370'] }
+      { code: 'IBA6316 / MDS5370', name: 'Generative AI for Business Applications: A No-Code/Low-Code Approach', terms: 'Spring 2025 \u00b7 Fall 2025 \u00b7 Fall 2026', coTeach: 'Spring 2025', codes: ['IBA6316', 'IBA6316/MDS5370'] }
     ];
     const courseRows = COURSES.map(c => {
       const g = all.filter(r => c.codes.indexOf(r.course) >= 0);
+      const nIp = g.filter(r => !isDone(r)).length;
       const tally = {};
-      g.forEach(r => [...new Set(r.stack_norm || r.ai_stack)].forEach(x => { tally[x] = (tally[x] || 0) + 1; }));
+      g.filter(isDone).forEach(r => [...new Set(r.stack_norm || r.ai_stack)].forEach(x => { tally[x] = (tally[x] || 0) + 1; }));
       const focus = Object.keys(tally).map(k => ({ k: k, n: tally[k] })).sort((a, b) => b.n - a.n).slice(0, 3);
       const yrs = [...new Set(g.map(r => r.academic_year))].sort();
       return {
         code: c.code, name: (zz && zz.course[c.code]) || c.name, count: g.length,
+        ipLabel: nIp ? ui.ipCourseFmt.replace('{n}', nIp) : '',
         level: [...new Set(g.map(r => r.level))].join(' / '),
         levelColor: g.length && g[0].level === 'PG' ? 'oklch(0.5 0.13 250)' : 'oklch(0.62 0.12 25)',
         years: (zz && zz.term[c.terms]) || c.terms, coTeach: !!c.coTeach, coTeachTerm: (c.coTeach && ((zz && zz.term[c.coTeach]) || c.coTeach)) || '', hasPress: !!c.press, pressLabel: c.press ? ((zz && zz.press[c.press.label]) || c.press.label) : '', pressUrl: c.press ? c.press.url : '',
@@ -621,16 +654,16 @@ class Component extends DCLogic {
       };
     });
 
-    const funcRows = stacked(r => r.business_function, FUNCS).map(r => ({ ...r, name: this.tf(r.name) }));
-    const artNames = [...new Set(all.map(r => r.artifact_type))];
-    const artRows = stacked(r => r.artifact_type, artNames).map(r => ({ ...r, name: this.ta(r.name) }));
+    const funcRows = stacked(r => r.business_function, FUNCS, cohorts).map(r => ({ ...r, name: this.tf(r.name) }));
+    const artNames = [...new Set(done.map(r => r.artifact_type))];
+    const artRows = stacked(r => r.artifact_type, artNames, cohortsDone).map(r => ({ ...r, name: this.ta(r.name) }));
 
     const PC = { 'Dify': 'oklch(0.5 0.13 250)', 'Coze': 'oklch(0.62 0.11 145)', 'Colab/Python': 'oklch(0.6 0.12 60)', 'LangChain': 'oklch(0.66 0.1 200)', 'Streamlit': 'oklch(0.7 0.11 165)', 'static webpage': 'oklch(0.62 0.1 300)', 'Flask': 'oklch(0.68 0.11 330)', 'n8n': 'oklch(0.6 0.1 20)' };
     const pcolor = p => PC[p] || 'oklch(0.75 0.02 265)';
-    const courses = [...new Set(all.map(r => r.course))];
+    const courses = [...new Set(done.map(r => r.course))];
     const platSeen = {};
     const platRows = courses.map(c => {
-      const g = all.filter(r => r.course === c), tally = {};
+      const g = done.filter(r => r.course === c), tally = {};
       g.forEach(r => [...new Set((r.platform_norm || r.platform).map(p => PC[p] ? p : 'other'))].forEach(p => { tally[p] = (tally[p] || 0) + 1; }));
       const list = Object.keys(tally).map(k => ({ name: k, n: tally[k] })).sort((a, b) => b.n - a.n);
       const tot = list.reduce((a, b) => a + b.n, 0) || 1;
@@ -647,7 +680,7 @@ class Component extends DCLogic {
       };
     }).sort((a, b) => a.course.localeCompare(b.course));
 
-    const legend = YEARS.map((y, i) => ({ label: y.label, color: YC[i], countLabel: cohorts[i].length + ' ' + ui.projectsSuffix }));
+    const legend = YEARS.map((y, i) => ({ label: y.label, color: YC[i], countLabel: cohorts[i].length + ' ' + (y.inProgress ? ui.ipSuffix : ui.projectsSuffix) }));
     const platOrder = ['Dify', 'Coze', 'n8n', 'Colab/Python', 'LangChain', 'Streamlit', 'Flask', 'static webpage'];
     const platLegend = platOrder.filter(p => platSeen[p]).map(p => ({ label: p, color: pcolor(p) }))
       .concat(platSeen['other'] ? [{ label: ui.platOther, color: pcolor('other') }] : []);
@@ -674,8 +707,8 @@ class Component extends DCLogic {
       const n = items.length || 1;
       return {
         label: y.label, note: (z && z.yearNote[y.key]) || y.note,
-        countLabel: items.length + ' ' + ui.projectsSuffix,
-        metrics: YEAR_METRICS.map(m => {
+        countLabel: items.length + ' ' + (y.inProgress ? ui.ipSuffix : ui.projectsSuffix),
+        metrics: y.inProgress ? [] : YEAR_METRICS.map(m => {
           const c = items.filter(m.key).length;
           return { label: this.tm(m.label), value: c + ' / ' + items.length, pct: Math.round(c / n * 100) + '%', color: 'oklch(0.6 0.12 ' + m.hue + ')' };
         }),
@@ -722,7 +755,10 @@ class Component extends DCLogic {
       showMap: () => this.setState({ view: 'map' }),
       showTime: () => this.setState({ view: 'time' }),
       showGrid: () => this.setState({ view: 'grid' }),
-      nProjects: all.length,
+      nProjects: all.filter(isDone).length,
+      nInProgress: all.filter(r => !isDone(r)).length,
+      nYears: YEARS.length,
+      newSites: SITES.map(x => ({ ...x, name: (z ? x.zh : x.en) + ' \u00b7 ' + ui.siteName })),
       nUG: all.filter(r => r.level === 'UG').length,
       nPG: all.filter(r => r.level === 'PG').length,
       scopeNote: s.showLow
@@ -754,6 +790,10 @@ class Component extends DCLogic {
         badge: sel.academic_year + ' \u00b7 ' + sel.course + ' \u00b7 ' + sel.level,
         artifact: this.ta(sel.artifact_type), industry: sel.industry, fn: this.tf(sel.business_function),
         levelLabel: sel.level === 'UG' ? ui.ug : ui.pg,
+        isDone: isDone(sel),
+        facts: (isDone(sel) ? [[ui.artifact, this.ta(sel.artifact_type)], [ui.industry, sel.industry]] : [])
+          .concat([[ui.businessFunction, this.tf(sel.business_function)], [ui.level, sel.level === 'UG' ? ui.ug : ui.pg]])
+          .map(kv => ({ k: kv[0], v: kv[1] })),
         stack: sel.ai_stack.map(l => ({ label: l })),
         noStack: sel.ai_stack.length === 0,
         platform: sel.platform.map(l => ({ label: l })),
@@ -761,7 +801,7 @@ class Component extends DCLogic {
         pages: sel.evidence_pages.join(', '),
         confidence: sel.confidence,
         courseEvidence: sel.course_evidence || 'body text',
-        note: sel.note || '',
+        note: isDone(sel) ? (sel.note || '') : ui.ipNote,
         thumbs: ((window.THUMBS || {})[sel.id] || []).slice(0, 2).map(src => ({ src: src }))
       } : null
     };
